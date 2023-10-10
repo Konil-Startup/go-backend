@@ -1,10 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-	"time"
 )
 
 var (
@@ -12,9 +10,8 @@ var (
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Hi from server", time.Now())
-	})
+	http.HandleFunc("/", Home)
+	http.HandleFunc("/about", About)
 
 	log.Printf("Starting server on port %v\n", port)
 	if err := http.ListenAndServe(port, nil); err != nil {
