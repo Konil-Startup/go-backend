@@ -20,11 +20,15 @@ func NoSurf(next http.Handler) http.Handler {
 	csrfHandler.SetBaseCookie(http.Cookie{
 		HttpOnly: true,
 		Path:     "/",
-		Secure:   false,
+		Secure:   app.InProduction,
 		SameSite: http.SameSiteDefaultMode,
 	})
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		log.Println("Hit page at", r.URL.Path)
 		next.ServeHTTP(w, r)
 	})
+}
+
+func LoadSession(next http.Handler) http.Handler {
+	return session.LoadAndSave(next)
 }
