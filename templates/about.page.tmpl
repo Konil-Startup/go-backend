@@ -1,11 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konil</title>
-</head>
-<body>
-    <h2>About</h2> 
-</body>
-</html>
+{{template "base" .}}
+
+{{define "content"}}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>About</h2>
+            {{if .}} 
+            <p>Data: {{ .Data.test }}</p>
+            {{ end }}
+        </div>
+    </div>
+</div>
+
+{{ end }}

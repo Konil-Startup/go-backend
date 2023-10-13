@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/Konil-Startup/go-backend/pkg/config"
+	"github.com/Konil-Startup/go-backend/pkg/models"
 	"github.com/Konil-Startup/go-backend/pkg/render"
 )
 
@@ -22,9 +23,12 @@ func NewHandlers(r *Repository) {
 }
 
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "home.page.tmpl")
+	render.RenderTemplate(w, "home.page.tmpl", nil)
 }
 
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "about.page.tmpl")
+
+	stringMap := map[string]interface{}{}
+	stringMap["test"] = "Hello"
+	render.RenderTemplate(w, "about.page.tmpl", &models.TemplateData{Data: stringMap})
 }
