@@ -49,16 +49,16 @@ CREATE TABLE IF NOT EXISTS votes (
     votable_type VARCHAR(50) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
-
-CREATE TABLE IF NOT EXISTS roles (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    vote_type VARCHAR(20) CHECK (vote_type IN ('up', 'down')),
-    votable_id INTEGER NOT NULL,
-    votable_type VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-
 -- Index for polymorphic association
 CREATE INDEX idx_votes_on_votable ON votes(votable_type, votable_id);
+
+CREATE TABLE IF NOT EXISTS roles (
+    id int PRIMARY KEY,
+    role VARCHAR(20)
+);
+INSERT INTO roles(id, role) VALUES(1, 'user');
+INSERT INTO roles(id, role) VALUES(2, 'moderator');
+INSERT INTO roles(id, role) VALUES(3, 'admin');
+INSERT INTO roles(id, role) VALUES(4, 'banned');
+
 

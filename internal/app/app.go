@@ -36,7 +36,7 @@ func New(cfg *config.Config, l *slog.Logger) (*Application, error) {
 
 	s := &http.Server{
 		Addr:    fmt.Sprintf(":%v", cfg.Port),
-		Handler: restHandler.Routes(),
+		Handler: rest.Routes(restHandler),
 	}
 
 	return &Application{

@@ -16,3 +16,42 @@ services:
     volumes:
       - ./migrations:/docker-entrypoint-initdb.d
       # - .:/var/lib/postgresql/data
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes: 
+      - cache:/data
+
+  app:
+    container_name: app
+    build:
+      context: ./
+    image: Dockerfile
+    depends_on:
+      - postgres
+      - cache
+    ports:
+      - 80:80
+    environment:
+      ENV: prod
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: postgres
+      REDIS_HOST: cache
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    links:
+      - db
+      - cache
+    volumes:
+      - ./:/src
+volumes:
+  db:
+    driver: local
+  cache:
+    driver: local

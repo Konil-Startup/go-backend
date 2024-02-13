@@ -39,15 +39,29 @@ func (s *Service) UserByID(ctx context.Context, id int) (*models.User, error) {
 	return user, nil
 }
 
+type MetricSuccessfulRequest struct{}
+type MetricFailedRequest struct{}
+
+var (
+	metricSuccessfulRequest = MetricSuccessfulRequest{}
+	metricFailedRequest     = MetricFailedRequest{}
+)
+
+func (a *MetricSuccessfulRequest) Inc() {}
+func (a *MetricFailedRequest) Inc()     {}
+
 func (s *Service) UserByEmail(ctx context.Context, email string) (*models.User, error) {
 	const op = "service.UserByEmail"
 	var user *models.User
 
+	// add metrics for successful and unsuccessful execution
 	user, err := s.repo.UserByEmail(ctx, email)
 	if err != nil {
-
+		// handle repo errs using service layers erorrs
+		metricFailedRequest.Inc()
 		return nil, fmt.Errorf("%s: %w", op, err)
 	}
+	metricSuccessfulRequest.Inc()
 
 	return user, nil
 }

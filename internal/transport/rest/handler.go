@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/Konil-Startup/go-backend/internal/service"
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi"
 )
 
 type RestHandler struct {
@@ -20,12 +20,15 @@ func New(s service.Service, l *slog.Logger) *RestHandler {
 	}
 }
 
-func (h *RestHandler) Routes() http.Handler {
-	r := mux.NewRouter()
+func Routes(h *RestHandler) http.Handler {
+	r := chi.NewRouter()
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("welcome"))
+	})
 
-	r.HandleFunc("/user/{user_id}", h.UserByID).Methods("GET")
-	r.HandleFunc("/user/email/{email}", h.UserByEmail).Methods("GET")
-	r.HandleFunc("/user", h.SaveUser).Methods("POST")
+	r.Get("/user/{user_id}", h.UserByID)
+	r.Get("/user/email/{email}", h.UserByEmail)
+	r.Post("/user", h.SaveUser)
 
 	return WriteToConsole(r)
 }

@@ -2,10 +2,12 @@ package rest
 
 import (
 	"encoding/json"
+	"log/slog"
 	"net/http"
 	"strconv"
 
 	"github.com/Konil-Startup/go-backend/internal/models"
+	"github.com/Konil-Startup/go-backend/pkg/logger/sl"
 	helpers "github.com/Konil-Startup/go-backend/pkg/webhelpers"
 	"github.com/gorilla/mux"
 	"golang.org/x/crypto/bcrypt"
@@ -16,14 +18,17 @@ func (h *RestHandler) UserByID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	userID, err := strconv.Atoi(vars["user_id"])
 	if err != nil || userID < 1 {
+		h.l.Error("error reading email from request", sl.Err(err), slog.String("op", op))
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(`{"error":"bad request"}`))
+		w.Write([]byte(`{"error":"bad"}`))
 		return
 	}
 
 	user, err := h.Service.UserByID(r.Context(), userID)
 	if err != nil {
-
+		helpers.HttpError(w, 404, helpers.JSON{
+			"error": err.Error(),
+		})
 		return
 	}
 
@@ -66,6 +71,7 @@ func (h *RestHandler) SaveUser(w http.ResponseWriter, r *http.Request) {
 	// should use some package for validation
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
+		h.l.Error("error decoding user from request", sl.Err(err), slog.String("op", op))
 		helpers.HttpBadRequest(w)
 		return
 	}

@@ -29,16 +29,19 @@ func main() {
 	}
 	go func() {
 		if err := application.Run(); err != nil {
-			application.Logger.Error("failed stopped:", sl.Err(err))
+			application.Logger.Error("Application stopped", sl.Err(err))
 		}
-
+		// stop main goroutine
 	}()
 
-	application.Logger.Info("Application started",
+	application.Logger.Info("Starting app",
 		slog.String("env", cfg.Env),
 		slog.Any("port", cfg.Port),
 	)
+
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGTERM, syscall.SIGINT)
 	<-sc
+
+	application.Logger.Info("Finishing background tasks")
 }
