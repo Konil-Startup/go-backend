@@ -52,13 +52,12 @@ CREATE TABLE IF NOT EXISTS votes (
 -- Index for polymorphic association
 CREATE INDEX idx_votes_on_votable ON votes(votable_type, votable_id);
 
-CREATE TABLE IF NOT EXISTS roles (
+CREATE TABLE IF NOT EXISTS permissions (
     id int PRIMARY KEY,
-    role VARCHAR(20)
+    permission VARCHAR(20)
 );
+
 INSERT INTO roles(id, role) VALUES(1, 'user');
 INSERT INTO roles(id, role) VALUES(2, 'moderator');
 INSERT INTO roles(id, role) VALUES(3, 'admin');
 INSERT INTO roles(id, role) VALUES(4, 'banned');
-
-
