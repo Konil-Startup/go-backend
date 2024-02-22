@@ -2,12 +2,58 @@
 
 {{define "content"}}
 
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <h2>Hi, Web</h2>
-            <a href="about">About</a>
+
+<div style="height: 80vh; width: 100%; background-color: antiquewhite;" class="d-flex flex-column">
+    <nav class="navbar navbar-light ms-5">
+        <div class="container-fluid">
+          <span class="navbar-brand mb-0 h1">Get<span style="color: orange;">Lawyer.kz</span></span>
         </div>
+    </nav>
+
+
+    <br class="my-5">
+    
+    <h2 class="text-center">Browse, analyze, contact <span style="color: orange;">lawyers</span> in Kazakhstan</h2>
+    <p class="text-center">
+        GetLawyer.kz is a community of lawyers who are ready to share recommendations and experience.
+    </p>
+    <p class="text-center">
+        The right conversation will clarify the situation better than ten hours of searching on the Internet. <br>
+        That's why we help those who need advice, find someone with expertise and discuss their issue one on one.
+    </p>
+
+    <br class="my-5">
+
+    <a href="#people" class="align-self-center"><button type="button" class="btn btn-lg" style="background-color: orange; color: white;">Get Lawyer</button></a>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<section id="people"></section>
+<h2 class="text-center">Our People</h2>
+<br>
+<br>
+
+<div class="container">
+    <div class="row d-flex">
+        {{ range .Data }} 
+        <a href="/show?title={{ .Title }}&com={{ .Company }}&job={{ .Occupation }}&years={{ .Years }}&price{{ .Price }}" class="col-3">
+            <div class="">
+                <img src="{{ .ImageLink }}" alt="image of {{ .Title }}" width="200">
+                <h5>{{ .Title }}</h2>
+                <p>{{ .Company }} @ {{ .Occupation }}</p>
+                <p>😎 {{ .Years }} years of experience</p>
+                <p>💰 {{ .Price }} tenge</p>
+                {{ if .HelpCount }}
+                    <p>🤝 {{ .HelpCount }} получили помощь</p>
+                {{ end }}
+            </div>
+        </a>
+        {{ end }}
     </div>
 </div>
 
