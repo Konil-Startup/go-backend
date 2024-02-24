@@ -52,12 +52,19 @@ CREATE TABLE IF NOT EXISTS votes (
 -- Index for polymorphic association
 CREATE INDEX idx_votes_on_votable ON votes(votable_type, votable_id);
 
-CREATE TABLE IF NOT EXISTS permissions (
-    id int PRIMARY KEY,
-    permission VARCHAR(20)
+CREATE TABLE IF NOT EXISTS permissions ( 
+    id bigserial PRIMARY KEY,
+    code text NOT NULL
+);
+CREATE TABLE IF NOT EXISTS users_permissions (
+    user_id bigint NOT NULL REFERENCES users ON DELETE CASCADE, 
+    permission_id bigint NOT NULL REFERENCES permissions ON DELETE CASCADE, 
+    PRIMARY KEY (user_id, permission_id)
 );
 
-INSERT INTO roles(id, role) VALUES(1, 'user');
-INSERT INTO roles(id, role) VALUES(2, 'moderator');
-INSERT INTO roles(id, role) VALUES(3, 'admin');
-INSERT INTO roles(id, role) VALUES(4, 'banned');
+INSERT INTO permissions (code)
+VALUES
+    ('post:read'), 
+    ('post:write'),
+    ('user:read'),
+    ('user:write');

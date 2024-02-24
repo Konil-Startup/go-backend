@@ -18,7 +18,7 @@ func New(dsn string) (*pgx.Conn, error) {
 
 	conn, err := pgx.Connect(ctx, dsn)
 	if err != nil {
-		return nil, fmt.Errorf("%s: failed to open connection to db: %w", op, err)
+		return nil, fmt.Errorf("%s: failed to open connection to db: %s", op, "check credentials or database availability over the network")
 	}
 
 	if err := conn.Ping(ctx); err != nil {

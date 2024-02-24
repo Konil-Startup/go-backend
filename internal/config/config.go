@@ -4,6 +4,7 @@ import (
 	"flag"
 	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/pkg/errors"
 )
 
@@ -15,7 +16,7 @@ type Config struct {
 }
 
 func New() (*Config, error) {
-	const op = "config.New"
+	godotenv.Load(".env.example")
 	port := flag.Int("port", 80, "port the server will run on")
 	flag.Parse()
 

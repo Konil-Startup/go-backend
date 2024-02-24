@@ -17,10 +17,14 @@ func NewTopicRepo(db *pgx.Conn) *TopicRepo {
 	}
 }
 
-func (t *TopicRepo) CreateTopic(ctx context.Context, topic *models.Topic) error {
+func (t *TopicRepo) SaveTopic(ctx context.Context, topic *models.Topic) error {
 	panic("implement me")
 }
 
 func (t *TopicRepo) DeleteTopicByID(ctx context.Context, id int) error {
+	panic("implement me")
+}
+
+func (t *TopicRepo) UpdateTopicByID(ctx context.Context, id int) error {
 	panic("implement me")
 }

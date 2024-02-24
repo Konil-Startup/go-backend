@@ -9,15 +9,19 @@ import (
 )
 
 type Repository struct {
+	Auth
 	User
 	Topic
 	Post
 	Comment
 }
+type Auth interface {
+}
 
 type Topic interface {
-	CreateTopic(ctx context.Context, topic *models.Topic) error
+	SaveTopic(ctx context.Context, topic *models.Topic) error
 	DeleteTopicByID(ctx context.Context, id int) error
+	UpdateTopicByID(ctx context.Context, id int) error
 }
 
 type User interface {
