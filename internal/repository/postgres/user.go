@@ -4,20 +4,24 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log/slog"
 
 	"github.com/Konil-Startup/go-backend/internal/models"
 	internalErrors "github.com/Konil-Startup/go-backend/pkg/errors"
+	"github.com/go-redis/cache/v9"
 
 	"github.com/jackc/pgx/v5"
 )
 
 type UserRepo struct {
-	db *pgx.Conn
+	db    *pgx.Conn
+	cache *cache.Cache
 }
 
-func NewUserRepo(db *pgx.Conn) *UserRepo {
+func NewUserRepo(db *pgx.Conn, l slog.Logger, cache *cache.Cache) *UserRepo {
 	return &UserRepo{
-		db: db,
+		db:    db,
+		cache: cache,
 	}
 }
 

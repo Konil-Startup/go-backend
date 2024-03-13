@@ -2,9 +2,11 @@ package repository
 
 import (
 	"context"
+	"log/slog"
 
 	"github.com/Konil-Startup/go-backend/internal/models"
 	"github.com/Konil-Startup/go-backend/internal/repository/postgres"
+	"github.com/go-redis/cache/v9"
 	"github.com/jackc/pgx/v5"
 )
 
@@ -54,9 +56,9 @@ type Comment interface {
 	CommentsByUserID(ctx context.Context, userID int, limitAndOffset ...int) (*[]models.Post, error)
 }
 
-func NewPostgresRepo(db *pgx.Conn) Repository {
+func NewPostgresRepo(db *pgx.Conn, l slog.Logger, cache *cache.Cache) Repository {
 	return Repository{
-		User:    postgres.NewUserRepo(db),
+		User:    postgres.NewUserRepo(db, l, cache),
 		Topic:   postgres.NewTopicRepo(db),
 		Post:    postgres.NewPostRepo(db),
 		Comment: postgres.NewCommentRepo(db),
