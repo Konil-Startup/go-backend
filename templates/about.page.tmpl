@@ -4,13 +4,29 @@
 
 <div class="container">
     <div class="row">
+        {{ range .Data }} 
         <div class="col">
-            <h2>About</h2>
-            {{if .}} 
-            <p>Data: {{ .Data.test }}</p>
-            {{ end }}
+            <br><br><br><br>
+            <h2>About, {{ .Title }}</h2>
+            <br>
+            <p>Hi, my name is {{ .Title }} and I work at {{ .Com }} for {{ .Years }}. Job title is {{ .Job }}. I hope my help will be appreciated.</p>
+            <p>I charge {{ .Price }} tenge for an hour</p>
+            
+            
+            <br><br>
+
+            
+            <a href="#people" class="align-self-center"><button type="button" class="btn btn-lg" style="background-color: orange; color: white;">Contact</button></a>
+            <br><br><br><br>
             <a href="/">Home</a>
         </div>
+
+        <div class="col">
+            <br><br><br><br>
+        
+            <img src="{{ .ImageLink }}" class="align-self-center">
+        </div>
+        {{ end }}
     </div>
 </div>
 

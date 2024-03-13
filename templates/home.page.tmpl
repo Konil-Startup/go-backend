@@ -41,7 +41,7 @@
 <div class="container">
     <div class="row d-flex">
         {{ range .Data }} 
-        <a href="/show?title={{ .Title }}&com={{ .Company }}&job={{ .Occupation }}&years={{ .Years }}&price{{ .Price }}" class="col-3">
+        <a href="/show?title={{ .Title }}&com={{ .Company }}&job={{ .Occupation }}&years={{ .Years }}&price={{ .Price }}&image={{ .ImageLink}}" class="col-3">
             <div class="">
                 <img src="{{ .ImageLink }}" alt="image of {{ .Title }}" width="200">
                 <h5>{{ .Title }}</h2>
